@@ -1,0 +1,11 @@
+﻿namespace UserServiceApiV2.Entities
+{
+    public class UserGroup
+    {
+        public int Id { get; set; }
+
+        public string GroupName { get; set; } = string.Empty;
+
+        public AccessRule AccessRule { get; set; } = new AccessRule();
+    }
+}
