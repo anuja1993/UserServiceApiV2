@@ -21,10 +21,12 @@ builder.Services.AddSwaggerGen();
 // Add cors to allow any origin
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: allowOrigns, builder =>
-    {
-        builder.AllowAnyOrigin();
-    });
+    options.AddPolicy(name: allowOrigns,
+       builder =>
+       {
+           builder
+           .AllowAnyOrigin();
+       });
 });
 
 var app = builder.Build();
@@ -37,6 +39,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(allowOrigns);
 
 app.UseAuthorization();
 
