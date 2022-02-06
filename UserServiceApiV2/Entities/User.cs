@@ -4,7 +4,9 @@
     {
         public int CustomerId { get; set; }
 
-        public UserGroup UserGroup { get; set; } = new UserGroup();
+        public int UserGroupId { get; set; }
+
+        public UserGroup? UserGroup { get; set; }
 
     }
 }

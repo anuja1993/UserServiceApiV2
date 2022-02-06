@@ -13,50 +13,47 @@ namespace UserServiceApiV2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserGroupsController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public UsersController(DataContext context)
+        public UserGroupsController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/UserGroups
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserGroup>>> GetUserGroups()
         {
-            return await _context.Users
-                .Include(user => user.UserGroup)
-                .ThenInclude(userGroup => userGroup.AccessRule)
-                .ToListAsync();
+            return await _context.UserGroups.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/UserGroups/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserGroup>> GetUserGroup(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var userGroup = await _context.UserGroups.FindAsync(id);
 
-            if (user == null)
+            if (userGroup == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return userGroup;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/UserGroups/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUserGroup(int id, UserGroup userGroup)
         {
-            if (id != user.Id)
+            if (id != userGroup.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(userGroup).State = EntityState.Modified;
 
             try
             {
@@ -64,7 +61,7 @@ namespace UserServiceApiV2.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!UserGroupExists(id))
                 {
                     return NotFound();
                 }
@@ -77,36 +74,36 @@ namespace UserServiceApiV2.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/UserGroups
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<UserGroup>> PostUserGroup(UserGroup userGroup)
         {
-            _context.Users.Add(user);
+            _context.UserGroups.Add(userGroup);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetUserGroup", new { id = userGroup.Id }, userGroup);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/UserGroups/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUserGroup(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var userGroup = await _context.UserGroups.FindAsync(id);
+            if (userGroup == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.UserGroups.Remove(userGroup);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool UserGroupExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.UserGroups.Any(e => e.Id == id);
         }
     }
 }

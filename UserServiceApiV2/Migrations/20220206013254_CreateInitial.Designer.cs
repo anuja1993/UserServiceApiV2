@@ -11,7 +11,7 @@ using UserServiceApiV2.Data;
 namespace UserServiceApiV2.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220205032221_CreateInitial")]
+    [Migration("20220206013254_CreateInitial")]
     partial class CreateInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,7 +64,7 @@ namespace UserServiceApiV2.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Lastname")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");

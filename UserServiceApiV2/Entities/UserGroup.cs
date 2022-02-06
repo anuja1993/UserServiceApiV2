@@ -6,6 +6,8 @@
 
         public string GroupName { get; set; } = string.Empty;
 
-        public AccessRule AccessRule { get; set; } = new AccessRule();
+        public int AccessRuleId { get; set; }
+
+        public AccessRule? AccessRule { get; set; }
     }
 }

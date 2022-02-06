@@ -13,50 +13,47 @@ namespace UserServiceApiV2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class AccessRulesController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public UsersController(DataContext context)
+        public AccessRulesController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/AccessRules
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<AccessRule>>> GetAccessRules()
         {
-            return await _context.Users
-                .Include(user => user.UserGroup)
-                .ThenInclude(userGroup => userGroup.AccessRule)
-                .ToListAsync();
+            return await _context.AccessRules.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/AccessRules/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<AccessRule>> GetAccessRule(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var accessRule = await _context.AccessRules.FindAsync(id);
 
-            if (user == null)
+            if (accessRule == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return accessRule;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/AccessRules/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutAccessRule(int id, AccessRule accessRule)
         {
-            if (id != user.Id)
+            if (id != accessRule.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(accessRule).State = EntityState.Modified;
 
             try
             {
@@ -64,7 +61,7 @@ namespace UserServiceApiV2.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!AccessRuleExists(id))
                 {
                     return NotFound();
                 }
@@ -77,36 +74,36 @@ namespace UserServiceApiV2.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/AccessRules
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<AccessRule>> PostAccessRule(AccessRule accessRule)
         {
-            _context.Users.Add(user);
+            _context.AccessRules.Add(accessRule);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetAccessRule", new { id = accessRule.Id }, accessRule);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/AccessRules/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteAccessRule(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var accessRule = await _context.AccessRules.FindAsync(id);
+            if (accessRule == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.AccessRules.Remove(accessRule);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool AccessRuleExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.AccessRules.Any(e => e.Id == id);
         }
     }
 }
